@@ -63,14 +63,24 @@ public class CorpusService {
             nfc(l.name()),nfc(l.nativeName()),nfc(l.greenLabel()),nfc(l.redLabel()),nfc(l.starterTemplate()),l.direction(),nfc(l.notes()),code,visitor,revision);
         if (changed!=1) throw new ResponseStatusException(CONFLICT,"Нет прав на шаблон либо его версия уже изменилась");
     }
+    private static String fingerprint(ContributionInput input) {
+        List<String> parts=new ArrayList<>(List.of(input.sceneId(),input.sceneVersion(),input.languageCode(),input.dialect(),
+            input.proficiency().name(),Boolean.toString(input.consent()),Boolean.toString(input.examplesViewed()),Boolean.toString(input.othersViewed())));
+        for (AlternativeInput a:input.alternatives()) {
+            parts.addAll(List.of(a.annotatedText(),a.translation(),a.gloss(),a.reading().name(),Integer.toString(a.weight()),
+                a.implicitRoles().stream().sorted().map(Enum::name).reduce("",String::concat)));
+        }
+        StringBuilder canonical=new StringBuilder();
+        for(String part:parts) canonical.append(part.length()).append(':').append(part);
+        return VisitorService.hash(canonical.toString());
+    }
     @Transactional public List<String> contribute(ContributionInput input,String visitor) {
         SceneCatalog.Scene scene=catalog.require(input.sceneId());
         if (!scene.version().equals(input.sceneVersion())) throw new ResponseStatusException(CONFLICT,"Сцена обновилась; перезагрузите её");
         if (db.queryForObject("SELECT COUNT(*) FROM languages WHERE code=?",Integer.class,input.languageCode())!=1)
             throw new ResponseStatusException(BAD_REQUEST,"Сначала добавьте язык");
         try { UUID.fromString(input.requestId()); } catch (IllegalArgumentException e) { throw new ResponseStatusException(BAD_REQUEST,"Некорректный requestId"); }
-        // Record.toString is used only as a deterministic retry fingerprint, not as a public data format.
-        String hash=VisitorService.hash(input.toString());
+        String hash=fingerprint(input);
         List<Map<String,Object>> old=db.queryForList("SELECT id,payload_hash FROM submissions WHERE visitor_id=? AND request_key=?",visitor,input.requestId());
         if (!old.isEmpty()) {
             if (!hash.equals(old.get(0).get("PAYLOAD_HASH"))) throw new ResponseStatusException(CONFLICT,"Этот requestId уже использован для другого содержимого");

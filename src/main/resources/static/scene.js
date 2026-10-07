@@ -58,7 +58,7 @@ function landmark(s) {
   let lx=540,ly=140;
   const rect=(x,y,width,height,extra={})=>g.append(node('rect',{x,y,width,height,rx:5,...extra}));
   if(['enter','exit','inside','admit','block'].includes(k)) {
-    g.append(node('path',{d:'M430 120H640V310H430Z M430 235H475V160H610V285H430Z','fill-rule':'evenodd'}));
+    g.append(node('path',{d:'M430 120H640V310H430V285H610V160H475V235H430Z','fill-rule':'evenodd'}));
     if(['admit','block'].includes(k)) rect(430,235,10,50*(1-s.gate),{rx:0});
   } else if(k==='through') {
     rect(430,165,210,60);rect(430,285,210,25);ly=193;

@@ -1,0 +1,13 @@
+services:
+  cezmec:
+    build: .
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - cezmec-data:/app/data
+    environment:
+      CEZMEC_ADMIN_TOKEN: ${CEZMEC_ADMIN_TOKEN:-}
+      CEZMEC_DB_PASSWORD: ${CEZMEC_DB_PASSWORD:-}
+    restart: unless-stopped
+volumes:
+  cezmec-data:
