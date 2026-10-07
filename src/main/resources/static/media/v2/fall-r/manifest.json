@@ -1,0 +1,38 @@
+{
+  "id": "fall-r",
+  "kind": "fall",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "6891abf0cadc801c3f849ee52359a2104680638f7279a26e9234ce33575855fb",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/fall-r.blend",
+  "modelSha256": "9314c221ccb8002d9f952f1c8d5b262cc3c0280524f1067ea80e6a8804dbce8e",
+  "files": {
+    "animation.mp4": "3f6ba155daffe8121adfb0ee92ccc6eb338a44673e01fb73a09f5a86db2772ce",
+    "poster.jpg": "bb9342d186002b31e07adc0ec17f091cfb119eaaaf1c7b0ef3d8cad5b726bb33",
+    "start.png": "d0aa23f02e4d16e3bdddc59ff821514e6b29d534a3b787c2f59814c89b1f6ee2",
+    "end.png": "b7e3a236604db7ed94f2a611f56dc0f1cfd7203ff23048a278fd4322a45332b6"
+  }
+}

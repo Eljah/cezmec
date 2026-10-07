@@ -1,0 +1,38 @@
+{
+  "id": "rise-g",
+  "kind": "rise",
+  "sceneVersion": "2",
+  "figureRole": "G",
+  "landmarkRole": "R",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "c2c4f88036aa4c1b4bfc8a25464e04b4e502cb149d31bc00bd9e364c2c16c2cd",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/rise-g.blend",
+  "modelSha256": "79c14b260be618ed1750f2fba64cddf69338b86266a45a5611e33c0b70adcca4",
+  "files": {
+    "animation.mp4": "4293a7ca873bedc5f52187ca2a03d1166620b356d026bfc1214d268255570cc3",
+    "poster.jpg": "884ca6a534fbf6bf34a6d533fe656346f25ba01006f621243b5e03fbe5715564",
+    "start.png": "e7833fda192c693c77637f714a710186bb1807f12e22a6a554fb2ff67ee5e50e",
+    "end.png": "aba95ee02e778338aacfee3c4daa86dcb5757cbd918a5768893c11ef08111228"
+  }
+}

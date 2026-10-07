@@ -1,0 +1,38 @@
+{
+  "id": "carry-r",
+  "kind": "carry",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "26d7ffa328b1ae354c261f85e0e73c3938093172803229eeef9c3b9f55794e8b",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/carry-r.blend",
+  "modelSha256": "2c25cb5be01eba2eee851f9d11e62ce0e0123fc28cb5400383799e6dcf6f85e9",
+  "files": {
+    "animation.mp4": "ee2636b94a99945a74ee25d09bfad04b87055d4993446c2ba18aac8e0995595c",
+    "poster.jpg": "4e5028eb44e8756df1f0e4382f85b5e12f6327f42506276d8ad010cd9e459878",
+    "start.png": "496e869e1093c1a2ba68eb979da1042e82085abcd87c05c8ee01e230abe052b8",
+    "end.png": "225056543b8c911e0be42f51e252610a8b9c146fc9b1646bd80f509f12ec4792"
+  }
+}

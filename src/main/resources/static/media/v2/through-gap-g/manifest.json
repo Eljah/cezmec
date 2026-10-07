@@ -1,0 +1,38 @@
+{
+  "id": "through-gap-g",
+  "kind": "through-gap",
+  "sceneVersion": "2",
+  "figureRole": "G",
+  "landmarkRole": "R",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "b86ee3063910f790270560246fc61fe0c931857c875da0cbaf8ce94223111514",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/through-gap-g.blend",
+  "modelSha256": "6297e36a70a5832b9cdd1263dc80994aff1ec59576f04f713a2cd0fe4f271fc1",
+  "files": {
+    "animation.mp4": "9c820f747cda5bcf81417d9268d295041a61d75d57814959008828b6c54be859",
+    "poster.jpg": "31ca40998006e02f513b3951e3fcb9dcd5f2d502489b2dcb2ab4595f1e2dddc4",
+    "start.png": "5d21a3008d9dfb5a987c80940356a083b788ed965abbf4933e7e2c7d1cc8b4d2",
+    "end.png": "087e82d62a5d8700e7ea4489c2f673016ef0690625e7728b68a13825da089a7a"
+  }
+}

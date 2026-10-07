@@ -1,0 +1,38 @@
+{
+  "id": "cover-r",
+  "kind": "cover",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      0.5,
+      -3.0,
+      12.0
+    ],
+    "target": [
+      0.5,
+      0.0,
+      0.4
+    ],
+    "scale": 9.2
+  },
+  "geometrySha256": "61d2ddcdf0f2ab3006c48fe8464412e6a78fd9d46d8ec7c6dab174d4c4cb3f94",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/cover-r.blend",
+  "modelSha256": "ce7ede3b3c4c4d263660b0426bb6e8f9a8e07ff9e2412de8553925ad98b4c339",
+  "files": {
+    "animation.mp4": "d7017b40091d191902651d5622937febd3905b12347dace688532098bc2e7150",
+    "poster.jpg": "92c6a385e51fea51288ee23e107791f90a13355f44384aebc8545affcf6319f6",
+    "start.png": "88315c4bbb45399315eed7495b20f4758627858cd44649f0fa297e54f8656647",
+    "end.png": "58e3d3043465cbd8f7672a58c78f96b6141ffcde50f602d78ce221df4334738b"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "underpass-g",
+  "kind": "underpass",
+  "sceneVersion": "2",
+  "figureRole": "G",
+  "landmarkRole": "R",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "be1d7a076d16b06d2bdb935df127d4bd398a113e049dbd59d1415c3e46028d0e",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/underpass-g.blend",
+  "modelSha256": "61822270e50066b1b636ff4f66de58afa9f8cd502a418bb6b855e6f76936a7e7",
+  "files": {
+    "animation.mp4": "78a629a95ce0455048090ff9ec3443d2e83786f46dc8cbdaa79844aa44aacae9",
+    "poster.jpg": "73c4af9898da164cb542c71b11394603d93f76d48b800b5179cb91a6221f893b",
+    "start.png": "22a5b450cc7d2ce974284921aa5b3d715e4d67fe4416d036f11edbebd0911ec9",
+    "end.png": "848b57f20b7818a56ead08bd48836226d0f6d60d063feedb936d810506a8d474"
+  }
+}
