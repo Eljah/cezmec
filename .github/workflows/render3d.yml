@@ -1,0 +1,80 @@
+name: Bake Blender 3D stimuli
+on:
+  push:
+    branches: ['feature/spatial-crowdsource-20261007']
+    paths: ['tools/scene3d.py', 'tools/render3d.py', 'tools/verify_media.py', '.github/workflows/render3d.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: blender-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Blender and render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends blender xvfb xauth libgl1-mesa-dri ffmpeg
+      - name: Model, animate and render meshes
+        env:
+          SHARD: ${{ matrix.shard }}
+          LIBGL_ALWAYS_SOFTWARE: '1'
+        run: |
+          xvfb-run -a blender --background --python-exit-code 1 --python tools/render3d.py -- --shard "$SHARD" --shards 6 > "render-$SHARD.log" 2>&1 || { tail -n 120 "render-$SHARD.log"; exit 1; }
+          grep '^BAKED' "render-$SHARD.log"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blender-shard-${{ matrix.shard }}
+          path: |
+            src/main/resources/static/media/v2/
+            models/blender/v2/
+            render-*.log
+          if-no-files-found: error
+  publish:
+    needs: render
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: blender-shard-*
+          merge-multiple: true
+          path: .
+      - name: Verify every clip, model and geometry pair
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          python3 tools/verify_media.py
+      - name: Commit generated resources without rewriting history
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- src/main/resources/static/media/v2 models/blender/v2
+          git diff --cached --quiet || git commit -m 'build: bake 72 real Blender 3D stimuli and editable models'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          git archive --format=zip --output=cezmec-blender-source.zip HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cezmec-blender-assets
+          path: |
+            cezmec-blender-source.zip
+            models/blender/v2/verification.json
+          if-no-files-found: error

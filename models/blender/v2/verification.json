@@ -1,0 +1,12 @@
+{
+  "version": "2",
+  "clips": 72,
+  "models": 72,
+  "geometrySamples": 10836,
+  "pairedGeometry": true,
+  "decodedVideos": true,
+  "width": 960,
+  "height": 540,
+  "fps": 24,
+  "frames": 96
+}

@@ -1,0 +1,38 @@
+{
+  "id": "uncover-r",
+  "kind": "uncover",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      0.5,
+      -3.0,
+      12.0
+    ],
+    "target": [
+      0.5,
+      0.0,
+      0.4
+    ],
+    "scale": 9.2
+  },
+  "geometrySha256": "38a5b0e6a21fc567222623c86750fa44504f371ae4be79b209d908e973382271",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/uncover-r.blend",
+  "modelSha256": "da89a693c2c717f49bf8cb90059227546bd4ae1128096134175ebf5f41ba8532",
+  "files": {
+    "animation.mp4": "7e4e6e335598c618c8e36e64994fcbf849c849a0af913f7bf89c1ddbc1fab79d",
+    "poster.jpg": "3a8904d9b28e88c9584c81c4ef2ca9ff704cfd38932d5bef07cf4b5dbd4b2584",
+    "start.png": "f3f9e1c2dad8af4ae7a9f9a7fcbbf7f086bfc4973dd095e44d239551191947f1",
+    "end.png": "1493b5ebf8b4323c872c44b074c0437ee80bbec004b44373b7c0bf4ad58b537f"
+  }
+}

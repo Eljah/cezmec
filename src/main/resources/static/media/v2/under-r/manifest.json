@@ -1,0 +1,38 @@
+{
+  "id": "under-r",
+  "kind": "under",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "25ed6e8e06c7e7b8d724942a45f3a1137006fa470692822f8ccbf9d74bd149cc",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/under-r.blend",
+  "modelSha256": "8c92017dc5d52abbd85ab2f3fe5e1d85204649a316c3d98bcb97398f425ab085",
+  "files": {
+    "animation.mp4": "604b41aa22b40e6fc100f934a80a5b0ff4472f08109624662c2d5ed52a832500",
+    "poster.jpg": "bdf672ff1812646bd6e8374486125714ae8514b051cf2446e056ac35a468be13",
+    "start.png": "d201ba570ac14ad1419d6742348e0e01bb6e87a138356ed69111b9caba2be849",
+    "end.png": "d201ba570ac14ad1419d6742348e0e01bb6e87a138356ed69111b9caba2be849"
+  }
+}

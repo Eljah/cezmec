@@ -1,0 +1,38 @@
+{
+  "id": "overpass-g",
+  "kind": "overpass",
+  "sceneVersion": "2",
+  "figureRole": "G",
+  "landmarkRole": "R",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "6d427b0f43f1110d8d1865b89facf00c2f221c6949888da7f9458cd9167795ca",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/overpass-g.blend",
+  "modelSha256": "095ec2b44b634008e9823450f4f8fdcb92ef9a01e3da79f3398337c1d502e04d",
+  "files": {
+    "animation.mp4": "087850bf049074b11443c8e01417f2ba81e4e9a4d122cd1fb8acf62cf6eaeb0e",
+    "poster.jpg": "fb10426dc8341850f12068a6ef5d652b642d75a5b6cf9d42b72e59a1a2a9daf8",
+    "start.png": "238a6d6afad4c68bcc91a28808f847162e5f8fe65122a0129af59d0b302ca451",
+    "end.png": "11650d944df47e7473f4afe292f24efc627dfc4c9540f701032688f64326977d"
+  }
+}

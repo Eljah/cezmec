@@ -1,0 +1,38 @@
+{
+  "id": "reach-g",
+  "kind": "reach",
+  "sceneVersion": "2",
+  "figureRole": "G",
+  "landmarkRole": "R",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "1d36c18e0efaeebf3b94ad6bd8579e1835d1511391d85a88492b2d8bc3ab3c24",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/reach-g.blend",
+  "modelSha256": "e7a50a4e595c5b71e80ccc6f34001efda423a429286cb8d4364b1d41f9b9db69",
+  "files": {
+    "animation.mp4": "dcaefd87c5a5c6f674f8888676fb015f07cb0edcba8d496384beb74ed3260ec4",
+    "poster.jpg": "c1a4b28e4d9f1f35437b669c59b825518d8d416a9171fac96f90e65c1cbaf79e",
+    "start.png": "99d922731b66eefd6ff7b1473a2b1ed74c28c89ae79673787e9ab41b8012f773",
+    "end.png": "b2ea7699c1bf512331892aae09df23ebfa9a36accf23b0adafee18a23bda8b59"
+  }
+}

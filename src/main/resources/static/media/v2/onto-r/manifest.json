@@ -1,0 +1,38 @@
+{
+  "id": "onto-r",
+  "kind": "onto",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "ca57dd7fe4eed5a57b6e477b5c8235940a07b53a1b6ab4a0646883adb39ec68d",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/onto-r.blend",
+  "modelSha256": "94fa674c7d12bc4ac64302cdbe51aeb0da3b31378bee15009cd998c9389639cc",
+  "files": {
+    "animation.mp4": "88b441abcff1bfaea272b96e376d5efefa64368f2cb149bcda47be8d833ceeeb",
+    "poster.jpg": "4fcc0723b6f83936321782ad372755561461d323f41d4364c39ba6a6ec25a439",
+    "start.png": "43a7daaaa649add434815636061f3ccaca7ae8e1bb0514554e071809f59360c5",
+    "end.png": "96c91c495daedad0a263781cb7ed95bf30cfbe4811f35337edf430ab0a097709"
+  }
+}

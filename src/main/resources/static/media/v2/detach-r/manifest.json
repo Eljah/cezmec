@@ -1,0 +1,38 @@
+{
+  "id": "detach-r",
+  "kind": "detach",
+  "sceneVersion": "2",
+  "figureRole": "R",
+  "landmarkRole": "G",
+  "fps": 24,
+  "frames": 96,
+  "duration": 4.0,
+  "width": 960,
+  "height": 540,
+  "sectioned": false,
+  "camera": {
+    "location": [
+      -7.8,
+      -12.5,
+      8.8
+    ],
+    "target": [
+      0.5,
+      0.0,
+      1.0
+    ],
+    "scale": 10.5
+  },
+  "geometrySha256": "802246c539a6b8f3add0f4a023eef5f8b101da19c5e10db9aa74550934b3de84",
+  "sourceCommit": "d0f3967fceb6d0a19bd9f1a5759a2a291fa222cb",
+  "blenderVersion": "4.0.2",
+  "renderer": "BLENDER_WORKBENCH",
+  "modelPath": "models/blender/v2/detach-r.blend",
+  "modelSha256": "f0a02f8aff1871807b15b94029c19e753e4a970d58679416e1f6557d17de6706",
+  "files": {
+    "animation.mp4": "c79769aa8a71bf7d6d1e982e32794b34954742e742e9ab9a70dd06b2709eaee5",
+    "poster.jpg": "b506a10d9cfcf26637d665dc9a73538dc11d88c129a8e2f5de2b0c8fa4d44026",
+    "start.png": "54a14ce81b907fc9389b60a861bd97b9439c56736f528dce8e9c7182cc5a7b45",
+    "end.png": "80d702a70789b96b1183f45292dc10bee2b7bf3873745c23a850b7cd27dff918"
+  }
+}
