@@ -34,11 +34,11 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - name: Check historical geometry and install browser
+      - name: Check historical geometry and install browser with H.264
         run: |
           node --test tests/geometry.test.js
           npm install --ignore-scripts
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chrome
       - name: Exercise real application, decoded video and capture screenshots
         run: npm run test:e2e
       - name: Commit only the tested application and real screenshots
@@ -50,7 +50,7 @@ jobs:
           cp test-results/cezmec-3d-*.png docs/screenshots/
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- src tests .github/workflows/ci.yml README.md docs/screenshots
+          git add -- src tests README.md docs/screenshots
           git diff --cached --quiet || git commit -m 'feat: integrate tested Blender video player, versioned corpus and genuine screenshots'
           git push origin "HEAD:$GITHUB_REF_NAME"
           git archive --format=zip --output=cezmec-3d-source.zip HEAD
