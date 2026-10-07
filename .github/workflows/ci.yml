@@ -28,10 +28,11 @@ jobs:
           node-version: '22'
       - name: Check geometry
         run: node --test tests/geometry.test.js
-      - name: Install browser tests
+      - name: Install browser tests and check bundled Edge
         run: |
           npm install --ignore-scripts
-          npx playwright install --with-deps chrome
+          test -x /opt/microsoft/msedge/msedge
+          /opt/microsoft/msedge/msedge --version
       - name: Browser end-to-end tests
         run: npm run test:e2e
       - name: Archive source

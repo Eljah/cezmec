@@ -34,11 +34,12 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - name: Check historical geometry and install browser with H.264
+      - name: Check historical geometry and preinstalled Edge with H.264
         run: |
           node --test tests/geometry.test.js
           npm install --ignore-scripts
-          npx playwright install --with-deps chrome
+          test -x /opt/microsoft/msedge/msedge
+          /opt/microsoft/msedge/msedge --version
       - name: Exercise real application, decoded video and capture screenshots
         run: npm run test:e2e
       - name: Commit only the tested application and real screenshots
