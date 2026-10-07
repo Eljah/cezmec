@@ -1,0 +1,68 @@
+name: Integrate and verify 3D site
+on:
+  push:
+    branches: ['feature/spatial-crowdsource-20261007']
+    paths: ['tools/upgrade_ui3d.py', 'tools/ui/**', '.github/workflows/upgrade3d.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: integrate-3d-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  integrate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Upgrade actual Java, frontend and tests
+        run: python3 tools/upgrade_ui3d.py
+      - name: Verify packaged 3D sources and videos
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          python3 tools/verify_media.py
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Build and test Java
+        run: mvn -B -ntp verify
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - name: Check historical geometry and install browser
+        run: |
+          node --test tests/geometry.test.js
+          npm install --ignore-scripts
+          npx playwright install --with-deps chromium
+      - name: Exercise real application, decoded video and capture screenshots
+        run: npm run test:e2e
+      - name: Commit only the tested application and real screenshots
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          mkdir -p docs/screenshots
+          cp test-results/cezmec-3d-*.png docs/screenshots/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- src tests .github/workflows/ci.yml README.md docs/screenshots
+          git diff --cached --quiet || git commit -m 'feat: integrate tested Blender video player, versioned corpus and genuine screenshots'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          git archive --format=zip --output=cezmec-3d-source.zip HEAD
+          git rev-parse HEAD > test-results/verified-commit.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cezmec-3d-verified
+          path: |
+            target/cezmec-*.jar
+            target/surefire-reports/
+            test-results/
+            playwright-report/
+            cezmec-3d-source.zip
+          if-no-files-found: error
