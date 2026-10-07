@@ -1,0 +1,32 @@
+name: Verify Cezmec
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Build and test Java
+        run: mvn -B -ntp verify
+      - name: Archive source
+        if: always()
+        run: git archive --format=zip --output=cezmec-source.zip HEAD
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cezmec-build
+          path: |
+            target/cezmec-*.jar
+            target/surefire-reports/
+            cezmec-source.zip
+          if-no-files-found: error
