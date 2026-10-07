@@ -1,0 +1,1 @@
+{"name":"cezmec-browser-tests","private":true,"type":"module","scripts":{"test:geometry":"node --test tests/geometry.test.js","test:e2e":"playwright test"},"devDependencies":{"@playwright/test":"1.56.1"}}

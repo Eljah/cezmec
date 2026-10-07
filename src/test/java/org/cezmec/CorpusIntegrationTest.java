@@ -79,7 +79,10 @@ class CorpusIntegrationTest {
     @Test void languageCanBeAddedAndDuplicateRejected() throws Exception {
         Cookie c=visitor();String code=language(c);
         mvc.perform(post("/api/languages").cookie(c).with(csrf()).contentType("application/json").content(languageBody(code))).andExpect(status().isConflict());
-        mvc.perform(get("/api/languages").cookie(c)).andExpect(status().isOk()).andExpect(jsonPath("$[?(@.code == '"+code+"')].editable").value(List.of(true)));
+        String response=mvc.perform(get("/api/languages").cookie(c)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        List<Map<String,Object>> returned=JsonPath.read(response,"$");
+        Map<String,Object> created=returned.stream().filter(l->code.equals(l.get("code"))).findFirst().orElseThrow();
+        assertEquals(Boolean.TRUE,created.get("editable"),response);
     }
     @Test void languageTemplateEditingChecksOwnerAndRevision() throws Exception {
         Cookie c=visitor();String code=language(c);

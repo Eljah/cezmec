@@ -8,6 +8,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+    /** No password login: writing uses CSRF plus a per-browser anonymous credential. */
+    @Bean org.springframework.security.core.userdetails.UserDetailsService noPasswordUsers() {
+        return username -> { throw new org.springframework.security.core.userdetails.UsernameNotFoundException("Password login is not configured"); };
+    }
     @Bean SecurityFilterChain webSecurity(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(a -> a.anyRequest().permitAll())
             .csrf(Customizer.withDefaults())
