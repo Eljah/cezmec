@@ -50,3 +50,18 @@ npm run test:e2e
 ## Границы прототипа
 
 Это сбор **текстовых записей**, без микрофона и аудио. Интерфейс пока русскоязычный, сами ответы поддерживают Unicode и RTL. Cookie обозначает браузер, не проверенного человека: очистка cookie позволяет получить новую идентичность, а утрата cookie лишает возможности редактировать собственные записи. Нет автоматической проверки переводов, нормативной регистрации языковых кодов, экспертного утверждения ответов, учётных записей и защиты от согласованной накрутки. Публичное развёртывание требует HTTPS, внешнего ограничения запросов, резервного копирования и организационного решения о лицензии корпуса; добавление кода в GitHub само по себе сайт не размещает.
+
+## 3D update (stimulus version 2)
+
+The running site now plays 960 x 540, 24 fps MP4 clips rendered from real
+Blender meshes with baked location keyframes (96 frames / 4 seconds).
+The Java application does not need Blender or Python installed.
+
+Editable sources: `models/blender/v2/*.blend`. Reproducible geometry and
+trajectories: `tools/scene3d.py`; rendering: `tools/render3d.py`.
+Media and per-scene provenance: `src/main/resources/static/media/v2/`.
+See [3D pipeline](docs/3D-PIPELINE.md).
+
+Historical v1 responses are preserved and exported with `scene_version=1`,
+but are not displayed as answers to v2. The SVG definition remains in `scene.js`
+as an archive; the active app imports `player3d.js` instead.

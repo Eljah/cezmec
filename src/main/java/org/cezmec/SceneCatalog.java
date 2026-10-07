@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 /** Stable stimulus identities. Never change a published animation without a new version. */
 @Component
 public class SceneCatalog {
-    public static final String VERSION = "1";
+    public static final String VERSION = "2";
     public record Scene(String id, int number, String version, String kind, String pairId,
         boolean focusFigure, String family, String title, String place, String direction,
         String contact, String causation, String realExample, String researchNote) {}
@@ -31,8 +31,8 @@ public class SceneCatalog {
             {"under","Вертикаль","Под","SUB","AT","NONE","NONE","Мяч под мостом","Ориентация задана плоскостью земли."},
             {"underpass","Вертикаль","Проход снизу","SUB","VIA","NONE","UNSPECIFIED","Мяч проходит под мостом","Просвет шире и выше шара."},
             {"front","Ориентация","Перед, со стороны камеры","FRONT","AT","NONE","NONE","Предмет перед экраном","Рамка отсчёта наблюдателя; не собственный перед объекта."},
-            {"behind","Ориентация","За, с перекрытием","BEHIND","AT","NONE","NONE","Предмет за экраном","Полупрозрачность служит проверке глубины, не свойство предмета."},
-            {"around","Ориентация","Полный обход","AROUND","VIA","NONE","UNSPECIFIED","Обход колонны","Глубина меняет порядок отрисовки."},
+            {"behind","Ориентация","За, с перекрытием","BEHIND","AT","NONE","NONE","Предмет за экраном","Фиксированная камера видит часть шара за невысоким экраном; прозрачность не используется."},
+            {"around","Ориентация","Полный обход","AROUND","VIA","NONE","UNSPECIFIED","Обход колонны","Глубина и перекрытие рассчитываются 3D-рендерером."},
             {"along","Ориентация","Вдоль без контакта","ALONG","VIA","NONE","UNSPECIFIED","Движение вдоль стены","Движение параллельно протяжённой границе."},
             {"contact","Поверхность","Контакт с вертикальной поверхностью","POSS_CANDIDATE","AT","TOUCH","NONE","Магнит на боковой стенке","POSS — гипотеза соответствия цезской серии, не готовый перевод."},
             {"attach","Поверхность","Присоединение сбоку","POSS_CANDIDATE","TO","TOUCH","UNSPECIFIED","Магнит приближается к стенке","Физическая прочность крепления не доказана."},
@@ -41,7 +41,7 @@ public class SceneCatalog {
             {"into-mass","Масса","Движение в массу","CONT_CANDIDATE","TO","SURROUND","UNSPECIFIED","Предмет погружается в массу","Не смешивать полость и массу."},
             {"out-of-mass","Масса","Движение из массы","CONT_CANDIDATE","FROM","SURROUND_LOST","UNSPECIFIED","Предмет выходит из массы","Материал намеренно не назван участнику."},
             {"between","Ориентация","Между частями одного тела","BETWEEN","AT","NONE","NONE","Мяч между стойками одной рамы","Две стойки принадлежат одному референту R или G."},
-            {"through-gap","Ориентация","Через промежуток","BETWEEN","VIA","NONE","UNSPECIFIED","Мяч проходит между стойками","Рама показана в плане; проход не сквозь материал."},
+            {"through-gap","Ориентация","Через промежуток","BETWEEN","VIA","NONE","UNSPECIFIED","Мяч проходит между стойками","Реальная 3D-рама; траектория проходит в свободном промежутке между стойками."},
             {"rise","Вертикаль","Вверх относительно ориентира","VERTICAL","UP","NONE","UNSPECIFIED","Предмет поднимается рядом со стеной","Сила, поднимающая предмет, не показана."},
             {"fall","Вертикаль","Вниз относительно ориентира","VERTICAL","DOWN","NONE","UNSPECIFIED","Предмет опускается рядом со стеной","Свободное падение и намеренное опускание не различены."},
             {"admit","Взаимодействие","Открывание прохода перед входом","IN","TO","NONE","GATE_OPENS","Дверь открывается, затем шар входит","Показан доступ, но намерение и разрешение остаются интерпретацией."},

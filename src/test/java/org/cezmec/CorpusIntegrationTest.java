@@ -44,7 +44,7 @@ class CorpusIntegrationTest {
     }
     String contribution(String code,String requestId,int weight) {
         return """
-            {"sceneId":"enter-g","sceneVersion":"1","languageCode":"%s","alternatives":[
+            {"sceneId":"enter-g","sceneVersion":"2","languageCode":"%s","alternatives":[
              {"annotatedText":"{G:объект} {R:субъектка} керә","translation":"входит","gloss":"G R-DAT enter.PRS","reading":"OBSERVED","weight":%d,"implicitRoles":[]}],
              "dialect":"тест","proficiency":"NATIVE","consent":true,"examplesViewed":false,"othersViewed":false,"requestId":"%s"}
             """.formatted(code,weight,requestId);
@@ -60,7 +60,7 @@ class CorpusIntegrationTest {
         for(var s:catalog.all()) {
             assertTrue(ids.add(s.id()));var pair=catalog.require(s.pairId());
             assertEquals(s.kind(),pair.kind());assertNotEquals(s.focusFigure(),pair.focusFigure());
-            assertEquals(s.id(),pair.pairId());assertEquals("1",s.version());
+            assertEquals(s.id(),pair.pairId());assertEquals("2",s.version());
         }
     }
     @Test void inflectedUnicodeRolesArePreserved() {
@@ -143,10 +143,20 @@ class CorpusIntegrationTest {
     }
     @Test void sceneVersionMismatchIsRejected() throws Exception {
         Cookie c=visitor();String code=language(c);
-        mvc.perform(post("/api/contributions").cookie(c).with(csrf()).contentType("application/json").content(contribution(code,UUID.randomUUID().toString(),50).replace("\"sceneVersion\":\"1\"","\"sceneVersion\":\"0\""))).andExpect(status().isConflict());
+        mvc.perform(post("/api/contributions").cookie(c).with(csrf()).contentType("application/json").content(contribution(code,UUID.randomUUID().toString(),50).replace("\"sceneVersion\":\"2\"","\"sceneVersion\":\"0\""))).andExpect(status().isConflict());
     }
     @Test void securityHeadersArePresent() throws Exception {
         mvc.perform(get("/api/stats")).andExpect(status().isOk()).andExpect(header().string("X-Content-Type-Options","nosniff"))
             .andExpect(header().string("Content-Security-Policy",org.hamcrest.Matchers.containsString("script-src 'self'")));
+    }
+    @Test void oldVersionIsNotMixedIntoCurrentAnswersButRemainsExportable() throws Exception {
+        Cookie c=visitor();String code=language(c);String old=submit(c,code,80);
+        db.update("UPDATE expressions SET scene_version='1' WHERE id=?",old);
+        submit(c,code,90);
+        mvc.perform(get("/api/expressions").cookie(c).param("sceneId","enter-g").param("languageCode",code))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].sceneVersion").value("2"));
+        mvc.perform(get("/api/export").param("languageCode",code))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.rows.length()").value(2));
     }
 }

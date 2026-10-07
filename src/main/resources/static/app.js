@@ -1,4 +1,5 @@
-import {renderScene} from './scene.js';
+import {Player3D} from './player3d.js';
+let player;
 const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const state={scenes:[],languages:[],scene:null,lang:null,session:null,epoch:0,progress:0,playing:!matchMedia('(prefers-reduced-motion: reduce)').matches,last:0,examplesViewed:false,othersViewed:false,pending:null,editing:null};
@@ -13,8 +14,8 @@ async function api(path,method='GET',data){
 }
 function safeRead(key){try{return JSON.parse(localStorage.getItem(key));}catch{return null;}}
 function safeWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{status('Браузер не сохраняет черновики. Не закрывайте страницу до отправки.',true);}}
-function key(){return 'cezmec:draft:v1:'+state.scene.id+':'+state.lang.code;}
-function exposureKey(){return 'cezmec:seen:v1:'+state.scene.id+':'+state.lang.code;}
+function key(){return 'cezmec:draft:v2:'+state.scene.id+':'+state.scene.version+':'+state.lang.code;}
+function exposureKey(){return 'cezmec:seen:v2:'+state.scene.id+':'+state.scene.version+':'+state.lang.code;}
 function markSeen(kind){state[kind]=true;safeWrite(exposureKey(),{examplesViewed:state.examplesViewed,othersViewed:state.othersViewed});}
 function annotatedPreview(target,text){
   target.replaceChildren();const re=/\{([GR]):([^{}\r\n]{1,120})}/g;let end=0,m;
@@ -62,12 +63,21 @@ function choose(sceneId,languageCode,initial=false){
   if(!initial)saveDraft();state.scene=state.scenes.find(s=>s.id===sceneId)??state.scenes[0];state.lang=state.languages.find(l=>l.code===languageCode)??state.languages[0];state.epoch++;
   $('language').value=state.lang.code;$('language-note').textContent=state.lang.notes;$('edit-language').hidden=!state.lang.editable;
   $('answers').replaceChildren();$('example-list').replaceChildren();$('examples').open=false;$('show-others').textContent='Показать ответы';
-  restoreDraft();renderCatalog();renderResearch();state.progress=0;state.last=0;renderFrame();
+  restoreDraft();renderCatalog();renderResearch();state.progress=0;state.last=0;
+  player.configure($('speed').value,$('loop').checked);player.setScene(state.scene,state.playing);
+  $('clip-link').href=player.url;$('cutaway-note').hidden=!['enter','exit','inside','through','admit','block'].includes(state.scene.kind);
+  updatePlayback();
   history.replaceState(null,'','#'+new URLSearchParams({scene:state.scene.id,lang:state.lang.code}));
 }
-function renderFrame(){if(!state.scene)return;renderScene($('stage'),state.scene,state.progress);$('timeline').value=String(Math.round(state.progress*1000));$('play').textContent=state.playing?'Пауза':'Воспроизвести';$('play').setAttribute('aria-label',state.playing?'Пауза анимации':'Воспроизвести анимацию');}
-function tick(now){const delta=state.last?Math.min(now-state.last,100):0;state.last=now;
-  if(state.playing&&!document.hidden&&state.scene){state.progress+=delta/5000*Number($('speed').value);if(state.progress>=1){if($('loop').checked)state.progress=0;else{state.progress=1;state.playing=false;}}renderFrame();}requestAnimationFrame(tick);}
+function updatePlayback(){
+  if(!player)return;
+  state.progress=player.progress;state.playing=player.playing;
+  $('timeline').value=String(Math.round(state.progress*1000));
+  $('play').textContent=state.playing?'Пауза':'Воспроизвести';
+  $('play').setAttribute('aria-label',state.playing?'Пауза анимации':'Воспроизвести анимацию');
+  $('clip-time').textContent=`${player.video.currentTime.toFixed(2)} / 4,00 с`;
+}
+function tick(){updatePlayback();requestAnimationFrame(tick);}
 async function refreshStats(){const s=await api('/stats');$('stats').replaceChildren(el('strong','',`${s.scenes} сцен`),el('span','',`${s.languages} языка / языковых варианта`),el('span','',`${s.expressions} ответов · ${s.ratings} оценок`));}
 function renderLanguages(){const selected=state.lang?.code;$('language').replaceChildren();for(const l of state.languages){const o=el('option','',l.name+(l.nativeName&&l.nativeName!==l.name?' · '+l.nativeName:'')+` [${l.code}]`);o.value=l.code;$('language').append(o);}if(selected)$('language').value=selected;}
 async function loadAnswers(examples=false){
@@ -89,10 +99,12 @@ function openLanguage(edit=false){const form=$('language-form');form.reset();sta
   form.elements.namedItem('code').readOnly=edit;if(edit)for(const k of ['code','name','nativeName','direction','greenLabel','redLabel','starterTemplate','notes'])form.elements.namedItem(k).value=state.lang[k];$('language-dialog').showModal();}
 function bind(){
   $('language').addEventListener('change',()=>choose(state.scene.id,$('language').value));$('family').addEventListener('change',renderCatalog);$('research').addEventListener('change',()=>{renderCatalog();renderResearch();});
-  $('pair').addEventListener('click',()=>choose(state.scene.pairId,state.lang.code));$('play').addEventListener('click',()=>{state.playing=!state.playing;if(state.progress===1)state.progress=0;renderFrame();});$('replay').addEventListener('click',()=>{state.progress=0;renderFrame();});$('timeline').addEventListener('input',()=>{state.playing=false;state.progress=Number($('timeline').value)/1000;renderFrame();});
+  $('pair').addEventListener('click',()=>choose(state.scene.pairId,state.lang.code));$('play').addEventListener('click',()=>{if(player.playing)player.pause();else player.play();updatePlayback();});$('replay').addEventListener('click',()=>{player.seek(0);updatePlayback();});$('timeline').addEventListener('input',()=>{player.pause();player.seek(Number($('timeline').value)/1000);updatePlayback();});
+  for(const id of ['speed','loop'])$(id).addEventListener('change',()=>player.configure($('speed').value,$('loop').checked));
   $('add-variant').addEventListener('click',()=>{addVariant();saveDraft();});$('use-labels').addEventListener('click',()=>{addVariant();saveDraft();});for(const id of ['dialect','proficiency','green-word','red-word'])$(id).addEventListener('input',saveDraft);
   $('show-others').addEventListener('click',()=>withButton($('show-others'),()=>loadAnswers()));$('examples').addEventListener('toggle',()=>{if($('examples').open)loadAnswers(true).catch(e=>status(e.message,true));});
   $('contribution').addEventListener('submit',event=>{event.preventDefault();withButton($('save'),async()=>{
+    if(!player.ready)throw new Error('Дождитесь загрузки 3D-ролика перед отправкой ответа.');
     const scene=state.scene.id,language=state.lang.code,epoch=state.epoch,draftKey=key();
     const payload={sceneId:scene,sceneVersion:state.scene.version,languageCode:language,alternatives:alternatives(),dialect:$('dialect').value,proficiency:$('proficiency').value,consent:$('consent').checked,examplesViewed:state.examplesViewed,othersViewed:state.othersViewed};
     const canonical=JSON.stringify(payload);if(!state.pending||state.pending.canonical!==canonical)state.pending={canonical,requestId:crypto.randomUUID()};saveDraft();
@@ -104,7 +116,7 @@ function bind(){
   $('language-form').addEventListener('submit',async e=>{e.preventDefault();const button=e.currentTarget.querySelector('[type=submit]');button.disabled=true;try{const input=Object.fromEntries(new FormData(e.currentTarget));input.code=input.code.toLowerCase();const edit=state.editing;await api(edit?`/languages/${edit.code}?revision=${edit.revision}`:'/languages',edit?'PUT':'POST',input);state.languages=await api('/languages');renderLanguages();$('language-dialog').close();choose(state.scene.id,input.code);await refreshStats();status('Языковой шаблон сохранён.');}catch(error){$('language-error').textContent=error.message;}finally{button.disabled=false;}});
   $('export').addEventListener('click',()=>withButton($('export'),async()=>{
     const lang=state.lang.code,rows=[];let offset=0;do{const page=await api(`/export?${new URLSearchParams({languageCode:lang,offset:String(offset),limit:'1000'})}`);rows.push(...page.rows);offset=page.nextOffset;}while(offset!==-1);
-    const data={schemaVersion:1,exportedAt:new Date().toISOString(),language:state.languages.find(l=>l.code===lang),scenes:state.scenes,rows,note:'Публичные непроверенные ответы. Примеры исключены. Выгрузка страниц не является транзакционным снимком.'};
+    const data={schemaVersion:1,exportedAt:new Date().toISOString(),language:state.languages.find(l=>l.code===lang),scenes:state.scenes,stimulusVersions:{'1':{renderer:'svg',definition:'/scene.js'},'2':{renderer:'blender-video',manifestPattern:'/media/v2/{sceneId}/manifest.json'}},rows,note:'Публичные непроверенные ответы. Примеры исключены. Выгрузка страниц не является транзакционным снимком.'};
     const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'})),a=el('a');a.href=url;a.download=`cezmec-${lang}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status(`Экспортировано ответов: ${rows.length}.`);
   }));
   window.addEventListener('beforeunload',saveDraft);
@@ -112,6 +124,6 @@ function bind(){
 async function start(){try{
   state.session=await api('/session');[state.scenes,state.languages]=await Promise.all([api('/scenes'),api('/languages')]);renderLanguages();
   for(const family of new Set(state.scenes.map(s=>s.family))){const o=el('option','',family);o.value=family;$('family').append(o);}
-  bind();const params=new URLSearchParams(location.hash.slice(1));choose(params.get('scene')??'enter-g',params.get('lang')??'ru',true);await refreshStats();requestAnimationFrame(tick);
+  player=new Player3D($('stage'),status);bind();const params=new URLSearchParams(location.hash.slice(1));choose(params.get('scene')??'enter-g',params.get('lang')??'ru',true);await refreshStats();requestAnimationFrame(tick);
 }catch(e){status('Не удалось запустить интерфейс: '+e.message,true);}}
 start();

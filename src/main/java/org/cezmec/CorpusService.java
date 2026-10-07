@@ -114,12 +114,13 @@ public class CorpusService {
               (SELECT r.weight FROM ratings r WHERE r.expression_id=e.id AND r.visitor_id=?) AS my_weight
             FROM expressions e JOIN submissions s ON s.id=e.submission_id
             WHERE e.scene_id=? AND e.language_code=? AND e.visibility='VISIBLE' AND e.is_example=?
+              AND (e.is_example=TRUE OR e.scene_version=?)
             ORDER BY e.created_at,e.id
             """, (r,n)->new ExpressionView(r.getString("id"),r.getString("scene_id"),r.getString("scene_version"),r.getString("language_code"),
                 r.getString("annotated_text"),r.getString("plain_text"),r.getString("translation"),r.getString("gloss"),r.getString("dialect"),
                 r.getString("reading_type"),r.getString("proficiency"),r.getString("implicit_roles"),r.getBoolean("is_example"),
                 r.getObject("average_weight",Double.class),r.getLong("ratings_count"),r.getObject("my_weight",Integer.class),
-                Objects.equals(visitor,r.getString("owner_id")),r.getObject("created_at").toString()),visitor,scene,language,examples);
+                Objects.equals(visitor,r.getString("owner_id")),r.getObject("created_at").toString()),visitor,scene,language,examples,SceneCatalog.VERSION);
     }
     private void requirePublicExpression(String id,boolean allowExample) {
         int count=db.queryForObject("SELECT COUNT(*) FROM expressions WHERE id=? AND visibility='VISIBLE'"+(allowExample?"":" AND is_example=FALSE"),Integer.class,id);
