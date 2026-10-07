@@ -18,7 +18,9 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
       - name: Upgrade actual Java, frontend and tests
-        run: python3 tools/upgrade_ui3d.py
+        run: |
+          python3 tools/upgrade_ui3d.py
+          python3 tools/ui/fix_scene_selectors.py
       - name: Verify packaged 3D sources and videos
         run: |
           sudo apt-get update -qq
